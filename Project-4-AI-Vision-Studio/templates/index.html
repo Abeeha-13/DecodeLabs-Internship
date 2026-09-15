@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Vision Studio</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- Background Decoration -->
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+
+
+    <!-- Main Application -->
+    <main class="app-container">
+
+        <!-- Header -->
+        <header class="header">
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    ✦
+                </div>
+
+                <div>
+                    <h1>AI Vision Studio</h1>
+
+                    <p>
+                        Intelligent Image Recognition System
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="status-badge">
+                <span class="status-dot"></span>
+                AI Model Online
+            </div>
+
+        </header>
+
+
+        <!-- Hero Section -->
+        <section class="hero">
+
+            <div class="hero-content">
+
+                <span class="eyebrow">
+                    PRE-TRAINED AI • COMPUTER VISION
+                </span>
+
+                <h2>
+                    Understand images with
+                    <span>Artificial Intelligence.</span>
+                </h2>
+
+                <p>
+                    Upload an image and let our pre-trained deep learning
+                    model analyze it and generate intelligent predictions.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- Upload Section -->
+        <section class="upload-section">
+
+            <div
+                class="upload-box"
+                id="uploadBox"
+            >
+
+                <div class="upload-icon">
+                    ↑
+                </div>
+
+                <h3>
+                    Upload an Image
+                </h3>
+
+                <p>
+                    Drag & drop your image here or click to browse
+                </p>
+
+                <span class="supported">
+                    JPG • JPEG • PNG
+                </span>
+
+                <input
+                    type="file"
+                    id="imageInput"
+                    accept="image/png, image/jpeg, image/jpg"
+                    hidden
+                >
+
+                <button
+                    class="browse-btn"
+                    id="browseBtn"
+                    type="button"
+                >
+                    Choose Image
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- Preview + Results -->
+        <section
+            class="analysis-section"
+            id="analysisSection"
+            style="display: none;"
+        >
+
+            <!-- Image Card -->
+            <div class="image-card">
+
+                <div class="card-header">
+
+                    <div>
+                        <span class="card-label">
+                            INPUT IMAGE
+                        </span>
+
+                        <h3>
+                            Uploaded Image
+                        </h3>
+                    </div>
+
+                </div>
+
+                <div class="image-preview-container">
+
+                    <img
+                        id="imagePreview"
+                        src=""
+                        alt="Uploaded image preview"
+                    >
+
+                </div>
+
+                <button
+                    class="analyze-btn"
+                    id="analyzeBtn"
+                    type="button"
+                >
+                    <span id="analyzeText">
+                        Analyze Image
+                    </span>
+
+                    <span
+                        id="loadingSpinner"
+                        class="spinner"
+                        style="display: none;"
+                    ></span>
+                </button>
+
+            </div>
+
+
+            <!-- Results Card -->
+            <div class="results-card">
+
+                <div class="card-header">
+
+                    <div>
+                        <span class="card-label">
+                            AI ANALYSIS
+                        </span>
+
+                        <h3>
+                            Recognition Results
+                        </h3>
+                    </div>
+
+                    <div
+                        class="model-badge"
+                    >
+                        ResNet-50
+                    </div>
+
+                </div>
+
+
+                <!-- Main Prediction -->
+                <div class="main-prediction">
+
+                    <span class="prediction-label">
+                        TOP PREDICTION
+                    </span>
+
+                    <h2 id="prediction">
+                        —
+                    </h2>
+
+                    <div class="confidence-row">
+
+                        <span>
+                            Confidence
+                        </span>
+
+                        <strong id="confidence">
+                            —%
+                        </strong>
+
+                    </div>
+
+                    <div class="confidence-bar">
+
+                        <div
+                            class="confidence-fill"
+                            id="confidenceFill"
+                            style="width: 0%;"
+                        ></div>
+
+                    </div>
+
+                    <div
+                        class="confidence-status"
+                        id="confidenceStatus"
+                    >
+                        Waiting for analysis
+                    </div>
+
+                </div>
+
+
+                <!-- Top Predictions -->
+                <div class="top-predictions">
+
+                    <div class="section-title">
+                        Top Predictions
+                    </div>
+
+                    <div id="predictionsList">
+
+                        <div class="empty-result">
+                            Upload an image to see predictions.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Model Details -->
+                <div class="model-details">
+
+                    <div class="detail-item">
+
+                        <span>MODEL</span>
+
+                        <strong>
+                            ResNet-50
+                        </strong>
+
+                    </div>
+
+                    <div class="detail-item">
+
+                        <span>DATASET</span>
+
+                        <strong>
+                            ImageNet
+                        </strong>
+
+                    </div>
+
+                    <div class="detail-item">
+
+                        <span>PROCESSING</span>
+
+                        <strong id="processingTime">
+                            —
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- History -->
+        <section
+            class="history-section"
+            id="historySection"
+            style="display: none;"
+        >
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="card-label">
+                        SESSION ACTIVITY
+                    </span>
+
+                    <h2>
+                        Prediction History
+                    </h2>
+
+                </div>
+
+                <button
+                    class="clear-btn"
+                    id="clearHistoryBtn"
+                    type="button"
+                >
+                    Clear History
+                </button>
+
+            </div>
+
+
+            <div
+                class="history-table-wrapper"
+            >
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                #
+                            </th>
+
+                            <th>
+                                Prediction
+                            </th>
+
+                            <th>
+                                Confidence
+                            </th>
+
+                            <th>
+                                Processing Time
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody
+                        id="historyBody"
+                    >
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- Footer -->
+        <footer>
+
+            <div>
+                AI Vision Studio
+            </div>
+
+            <div>
+                Powered by Flask + PyTorch + ResNet-50
+            </div>
+
+        </footer>
+
+    </main>
+
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+
+</html>
